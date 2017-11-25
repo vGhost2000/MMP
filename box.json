@@ -1,0 +1,25 @@
+{
+  "alias": "mmp.phar",
+  "compactors": [
+    "Herrera\\Box\\Compactor\\Composer",
+    "Herrera\\Box\\Compactor\\Json"
+  ],
+  "compression": "GZ",
+  "main": "migration.php",
+  "output": "build/mmp.phar",
+  "finder": [
+    {
+      "exclude": ["Tests", "Test", "tests", "test", "box.phar"],
+      "in": ["lib", "phing", "vendor/composer", "vendor/guzzle", "vendor/psr", "vendor/satooshi",
+        "vendor/sebastian", "vendor/symfony"
+      ]
+    }
+  ],
+  "files": [
+    "config.ini.sample", "init.php",
+    "vendor/autoload.php"
+  ],
+  "chmod": "0755",
+  "git-version": "git-version",
+  "stub": true
+}
