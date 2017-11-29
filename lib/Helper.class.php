@@ -179,12 +179,24 @@ class Helper
             if ($db) {
                 return $db;
             }
-            $db = new Mysqli($conf['host'], $conf['user'], $conf['password'], $conf['db']);
+            $db = new Mysqli($conf['host'], $conf['user'], $conf['password']);
+            if ($conf['charset']) {
+                $db->set_charset($conf['charset']);
+            }
+            // база на момент соединения может не существовать
+            $db->select_db($conf['db']);
 
             return $db;
         }
 
-        return new Mysqli($conf['host'], $conf['user'], $conf['password'], $conf['db']);
+        $result = new Mysqli($conf['host'], $conf['user'], $conf['password']);
+        if ($conf['charset']) {
+            $result->set_charset($conf['charset']);
+        }
+        // база на момент соединения может не существовать
+        $result->select_db($conf['db']);
+
+        return $result;
     }
 
     static function initVersionTable()

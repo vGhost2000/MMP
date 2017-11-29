@@ -30,6 +30,7 @@ class migrateFromInitController extends AbstractController
         // проверим существование бд, если нету попробуем создать
         if (!$db->query('SHOW DATABASES LIKE "' . $config['db'] . '"')->fetch_assoc()) {
             $db->query('CREATE DATABASE ' . $config['db'] . ' DEFAULT CHARACTER SET utf8');
+            $db->select_db($config['db']);
             return true;
         }
         if ($db->query('SHOW TABLES FROM ' . $config['db'] . ' LIKE "' . $config['versiontable'] . '"')->fetch_assoc()) {
