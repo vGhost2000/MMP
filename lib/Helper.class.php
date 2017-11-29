@@ -180,6 +180,9 @@ class Helper
                 return $db;
             }
             $db = new Mysqli($conf['host'], $conf['user'], $conf['password']);
+            if ($db->connect_errno) {
+                throw new Exception("Connect failed: %s\n", $db->connect_error, 0xffff);
+            }
             if ($conf['charset']) {
                 $db->set_charset($conf['charset']);
             }
@@ -190,6 +193,9 @@ class Helper
         }
 
         $result = new Mysqli($conf['host'], $conf['user'], $conf['password']);
+        if ($result->connect_errno) {
+            throw new Exception("Connect failed: %s\n", $result->connect_error, 0xffff);
+        }
         if ($conf['charset']) {
             $result->set_charset($conf['charset']);
         }

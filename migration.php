@@ -25,7 +25,20 @@ if (!Helper::checkConfigEnough()) {
 }
 $controller = Helper::getController($cli_params['command']['name'], $cli_params['command']['args']);
 if ($controller !== false) {
-    $controller->runStrategy();
+    try {
+        $db = false;
+        $db = Helper::getDbObject();
+        $db->begin_transaction();
+        $controller->runStrategy();
+    } catch (Exception $e) {
+        if (!empty($msg = $e->getMessage())) {
+            Output::verbose('[31m' . $msg . '[37m');
+        }
+        if ($e->getCode() !== 0xffff && $db) {
+            $db->rollback();
+        }
+        die(1);
+    }
 } else {
     Output::error('mmp: unknown command "'.$cli_params['command']['name'].'"');
     Helper::getController('help')->runStrategy();

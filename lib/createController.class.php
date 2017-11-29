@@ -23,10 +23,14 @@ class createController extends AbstractController
         file_put_contents($filename, $content);
         Output::verbose("file: {$filename} written!");
         $vTab = Helper::get('versiontable');
-        $db->query("INSERT INTO `{$vTab}` SET rev={$version}");
+        if (!$db->query("INSERT INTO `{$vTab}` SET rev={$version}")){
+            throw new Exception($this->db->error);
+        }
         $aTab = Helper::get('aliastable');
         if (false !== $alias && false !== $aTab) {
-            $db->query("INSERT INTO `{$aTab}` SET rev={$version}, alias='{$alias}'");
+            if (!$db->query("INSERT INTO `{$aTab}` SET rev={$version}, alias='{$alias}'")) {
+                throw new Exception($this->db->error);
+            }
         }
 
         return true;

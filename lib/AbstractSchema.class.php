@@ -7,7 +7,7 @@ abstract class AbstractSchema
         foreach ($this->buildQueries() as $query) {
             Output::verbose($query);
             if (!$db->query($query)) {
-                Output::verbose("Fail\n{$query}\n{$db->error}");
+                throw new Exception("Fail\n{$query}\n{$db->error}");
             }
         }
     }

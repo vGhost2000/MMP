@@ -23,7 +23,7 @@ abstract class AbstractMigration
             if ($this->db->query($query)) {
                 Output::verbose('Ok');
             } else {
-                Output::verbose($this->db->error);
+                throw new Exception($this->db->error);
             }
         }
         foreach ($this->buildUp() as $query) {
@@ -31,7 +31,7 @@ abstract class AbstractMigration
             if ($this->db->query($query)) {
                 Output::verbose('Ok');
             } else {
-                Output::verbose($this->db->error);
+                throw new Exception($this->db->error);
             }
         }
         foreach ($this->buildPostup() as $query) {
@@ -39,14 +39,16 @@ abstract class AbstractMigration
             if ($this->db->query($query)) {
                 Output::verbose('Ok');
             } else {
-                Output::verbose($this->db->error);
+                throw new Exception($this->db->error);
             }
         }
         $verT  = Helper::get('versiontable');
         $rev   = $this->getRev();
         $query = "INSERT INTO `{$verT}` SET `rev`={$rev}";
         Output::verbose($query);
-        $this->db->query($query);
+        if (!$this->db->query($query)) {
+            throw new Exception($this->db->error);
+        }
     }
 
     /**
@@ -91,26 +93,30 @@ abstract class AbstractMigration
             if ($this->db->query($query)) {
                 Output::verbose('Ok');
             } else {
-                Output::verbose($this->db->error);
+                throw new Exception($this->db->error);
             }
         }
         foreach ($this->buildDown() as $query) {
             Output::verbose('DOWN:'.$query);
-            $this->db->query($query);
+            if (!$this->db->query($query)) {
+                throw new Exception($this->db->error);
+            }
         }
         foreach ($this->buildPostdown() as $query) {
             Output::verbose('POSTDOWN: '.$query);
             if ($this->db->query($query)) {
                 Output::verbose('Ok');
             } else {
-                Output::verbose($this->db->error);
+                throw new Exception($this->db->error);
             }
         }
         $verT  = Helper::get('versiontable');
         $rev   = $this->getRev();
         $query = "DELETE FROM `{$verT}` WHERE `rev`={$rev}";
         Output::verbose($query);
-        $this->db->query($query);
+        if (!$this->db->query($query)) {
+            throw new Exception($this->db->error);
+        }
     }
 
     /**
