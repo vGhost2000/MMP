@@ -7,6 +7,9 @@ if (empty($cli_params['options']['config'])) {
     if (!is_file($cli_params['options']['config'])) {
         $cli_params['options']['config'] = getcwd().DIRECTORY_SEPARATOR.'config.ini';
     }
+    if (!is_file($cli_params['options']['config'])) {
+        $cli_params['options']['config'] = getcwd().DIRECTORY_SEPARATOR.'/config/config.ini';
+    }
 }
 $config = array();
 if (file_exists($cli_params['options']['config'])) {

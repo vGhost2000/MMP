@@ -13,13 +13,14 @@ Usage:
 
 Available commands:
 
-  [1;32mhelp:[0m       display this help and exit
-  [1;32mschema:[0m     create schema for initial migration/installation
-  [1;32minit:[0m       load initial schema (install)
-  [1;32madd:[0m        add existig database to versioning (keep data alive)
-  [1;32mcreate:[0m     create new migration
-  [1;32mlist:[0m       list available migrations and mark current version
-  [1;32mmigrate:[0m    migrate to specified time
+  [1;32mhelp:[0m             display this help and exit
+  [1;32mschema:[0m           create schema for initial migration/installation
+  [1;32minit:[0m             load initial schema (install)
+  [1;32madd:[0m              add existig database to versioning (keep data alive)
+  [1;32mcreate:[0m           create new migration
+  [1;32mlist:[0m             list available migrations and mark current version
+  [1;32mmigrate:[0m          migrate to specified time
+  [1;32mmigrateFromInit:[0m  create DB (if need), init DB (if need), then migrate DB
   
 Available options:
 
